@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .box{
+            margin-top:30px;
+            position: relative;
+            top: 0;
+            left: 50%;
+            transform:translate(-50%);
+            width: 90%;
+            height: 450px;
+            border: 3px solid #000;
+        }
+        div{
+            display: flex;
+            flex-flow:row wrap;
+            justify-content: space-around;
+            align-items: center;
+            border:inherit;
+            font-size:12px;
+            padding: 5px;
+            margin: 5px;
+            text-align: center;
+        }
+        .btn{
+            margin: 20px auto;
+        }
+        input{
+            display: inline-block;
+            color: #fff;
+            font-size: 15px;
+            font-weight:bolder;
+            background: rgba(0,0,0,0.5);
+            border:none;
+            padding:8px 5px;
+            cursor:pointer;
+        }
+        input:hover{
+            background: rgba(0,0,0,0.8);
+        }
+        .inq{
+            width: 280px;
+            margin:10px auto;
+        }
+        #text{
+            border: 2px solid rgba(0,0,0,0.5);
+            background:rgba(0,0,0,0.5);
+            color: greenyellow;
+        }
+        .seek{
+            background: red !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="box" id="root">一棵开花的树-席慕容
+        <div>如何让你遇见我
+            <div>在我最美丽的时刻
+                <div>为这
+                    <div>The most distant way in the world
+                        <div> 手心的玫瑰</div>
+                    </div>
+                    <div>It is when I sit near you  </div>
+                </div>
+                <div>我已在佛前求了五百年
+                    <div>求佛让我们结一段尘缘</div>
+                    <div>佛於是把我化做一棵树</div>
+                </div>
+            </div>
+            <div>
+                <div>长在你必经的路旁
+                    <div>阳光下</div>
+                    <div>慎重地开满了花</div>
+                </div>
+                <div>朵朵都是我前世的盼望</div>
+            </div>
+        </div>
+        <div>当你走近
+            <div>请 你细听
+                <div>那颤抖的叶
+                    <div>The most distant way in the world</div>
+                </div>
+                <div>是我等待的热情</div>
+            </div>
+            <div>而当你终於无视地走过
+                <div>
+                    在你身後落了一地的
+                    <div>朋友啊</div>
+                    <div>那不是花瓣
+                        <div>那是我凋零的心</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        <div class="btn">
+            <input type="button" value="前序遍历" id="btn_left">
+            <input type="button" value="中序遍历" id="btn_center">
+            <input type="button" value="后序遍历" id="btn_right">
+        </div>
+        <div class="inq">
+            <input type="text" id="text" >
+            <input type="button" value="查询" id="inquiry">
+        </div>
+
+    <script>
+        var btn_left = document.getElementById("btn_left"),
+            btn_center = document.getElementById("btn_center"),
+            btn_right = document.getElementById("btn_right"),
+            rootNode = document.getElementById("root"),
+            inquiry = document.getElementById("inquiry"),
+            arr = [],
+            len = [],
+            previous,
+            boole = false;
+        //复位
+        function reset(){
+            arr=[];
+           if(previous){
+               previous.style.backgroundColor = "white";
+           }
+        }
+
+        //先序遍历
+        function preOrder(node){
+            if(!(node == null)){
+                arr.push(node);
+                preOrder(node.firstElementChild);
+                preOrder(node.lastElementChild);
+            }
+        }
+        //使用递归方式实现中序遍历
+        function inOrder(node){
+            if(!(node == null)){
+                inOrder(node.firstElementChild);//先访问左子树
+                arr.push(node);//再访问根节点
+                inOrder(node.lastElementChild);//最后访问右子树
+            }
+        }
+
+        //后序遍历
+        function postOrder(node){
+            if(!(node == null)){
+                postOrder(node.firstElementChild);
+                postOrder(node.lastElementChild);
+                arr.push(node);
+            }
+        }
+
+        function addColor(){
+            for(var i=0;i<arr.length;i++){
+                (function(i){
+                    setTimeout(function(){
+                        if(i == arr.length-1){
+                            boole = false;
+                        }
+                        if(previous){
+                            previous.style.backgroundColor = "white";
+                        }
+                        arr[i].style.backgroundColor = "greenyellow";
+                        previous = arr[i];
+                    },i*200)
+                })(i)
+            }
+        }
+
+        function seek(){
+                var val = document.getElementById("text").value;
+                var regexp = eval("/" + val + "/g");
+                var i=0;
+                if(val == ""){
+                    alert("请输入要查询的值");
+                    return;
+                }
+                arr[i].style.backgroundColor = "greenyellow";
+                time = setInterval(function(){
+                    i++;
+                    if(i<arr.length){
+                        var txt = arr[i].childNodes[0].nodeValue;
+                        arr[i-1].style.backgroundColor = "white";
+                        arr[i].style.backgroundColor = "greenyellow";
+                            if(regexp.test(txt)){
+                                len.push(i);
+                            }else if(i == arr.length-1){
+                                if(len.length>0){
+                                    alert("找到" +len.length+"个相似内容,已作出标记");
+                                    for(var j=0;j<len.length;j++){
+                                        var x = len[j];
+                                        arr[x].style.backgroundColor = "red";
+                                    }
+                                }else{
+                                    alert("未找到相似内容")
+                                }
+                            }
+
+                    }else{
+                        clearInterval(time);
+                        arr[i].style.backgroundColor = "white";
+                    }
+                },100) ;
+        }
+
+
+        btn_left.onclick = function(e){
+            e.preventDefault();
+            if(!boole){
+                boole = true;
+                reset();
+                preOrder(rootNode);
+                addColor();
+            }
+
+        };
+        btn_center.onclick = function(e){
+            e.preventDefault();
+            if(!boole){
+                boole = true;
+                reset();
+                inOrder(rootNode);
+                addColor();
+            }
+
+        };
+        btn_right.onclick = function(e){
+            e.preventDefault();
+            if(!boole) {
+                boole = true;
+                reset();
+                postOrder(rootNode);
+                addColor();
+            }
+        };
+        inquiry.onclick = function(e){
+            e.preventDefault();
+            if(!boole) {
+                boole = true;
+                reset();
+                preOrder(rootNode);
+                seek();
+            }
+        }
+    </script>
+</body>
+</html>
