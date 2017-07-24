@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        li{
+            float: left;
+            height: 30px;
+            line-height:30px;
+            text-align: center;
+            background: greenyellow;
+            list-style:none;
+            margin-left: 4px;
+            padding:0 10px;
+            color: #fff;
+            cursor: pointer;
+        }
+        .add{
+            color: purple;
+        }
+    </style>
+</head>
+<body>
+    <textarea name="" id="content" cols="30" rows="10"></textarea><br>
+    <input type="button" id="left_in" value="左侧插入">
+    <input type="button" id="right_in" value="右侧插入">
+    <input type="button" id="left_out" value="左侧删除">
+    <input type="button" id="right_out" value="右侧删除">
+    <input type="text" id="input">
+    <input type="button" id="inquiry" value="查询">
+    <ul id="show"></ul>
+    <script>
+        var left_in = document.getElementById("left_in");
+        var right_in = document.getElementById("right_in");
+        var left_out = document.getElementById("left_out");
+        var right_out = document.getElementById("right_out");
+        var content = document.getElementById('content');
+        var inquiry = document.getElementById('inquiry');
+        var show = document.getElementById('show');
+        var lis = show.childNodes;
+
+
+        //左右添加
+       function add(direction){
+           if(content.value == ""){
+               alert("该文本不能为空！");
+               content.value = ""
+           }else{
+               var text = content.value;
+               //将多个空格替换为一个空格
+               text = text.replace(/\s+/g,' ');
+               //将非数字，字母，汉字的其它字符串替换为一个空格
+               text = text.replace(/[^a-zA-Z0-9\u4e00-\u9fa5]/g,' ');
+               //从空格处将字符串分割成字符串组
+               var arr = text.split(' ');
+               //遍历字符串组,将数组值按下标值依次插入到ul当中
+               for(var i=0;i<arr.length;i++){
+                   var li= document.createElement('li');
+                   li.innerHTML = arr[i];
+                   if(direction === "left"){
+                       show.insertBefore(li,show.firstChild);
+                       content.value = "";
+                       content.focus();
+                   }else if(direction === "right"){
+                       show.appendChild(li);
+                       content.value = "";
+                       content.focus();
+                   }
+               }
+           }
+
+        }
+        left_in.onclick=function(){add("left")};
+        right_in.onclick=function(){add("right")};
+
+        //左右删除
+        function remove(x,direction){
+            if(direction === "left"){
+                alert("删除数字:"+show.firstChild.innerText);
+                show.removeChild(show.firstChild);
+                left.focus();
+            }else if(direction === "right"){
+                alert("删除数字:"+show.lastChild.innerText);
+                show.removeChild(show.lastChild);
+                right_out.focus();
+            }else{
+                alert('删除数字:'+show.removeChild(x).innerHTML);
+            }
+        }
+
+        left_out.onclick = function(){remove(1,"left")};
+        right_out.onclick = function(){remove(1,"right")};
+        show.onclick = function(){remove(event.target)};
+        //查询
+        inquiry.onclick = function(){
+            //获取文本框输入的值
+            var val =  document.getElementById('input').value;
+            //将获取的文本框值，转换为正则表达式
+            /*var reg = "/"+val+"/g";
+            var tent = eval(reg);*/
+            var tent = eval("/"+ val +"/g");
+            //遍历所有ul的子节点集合lis
+            for(var i=0;i<lis.length;i++){
+                //获取当前li节点的内容，因为innerHTML返回的就是string类型值，所以不需要用toString()进行转换
+                var str = show.childNodes[i].innerHTML;
+                //在当前字符串str中查找与所有tent正则相匹配的子串，并用span将其替换
+                str = str.replace(tent,"<span class='add'>"+val+"</span>" );
+                //将当前li元素的内容替换为已修改的内容值
+                show.childNodes[i].innerHTML = str;
+                //每次点击后将文本框值清零
+                input.value="";
+                //输入焦点添加给文本框
+                input.focus();
+            }
+        }
+    </script>
+</body>
+</html>
