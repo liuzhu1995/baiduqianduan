@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        li{
+            display: inline-block;
+            background: greenyellow;
+            padding:0 6px;
+            height: 30px;
+            text-align: center;
+            margin-left: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <input id="num" type="text" />
+    <button id="left_in">左侧入</button>
+    <button id="right_in">右侧入</button>
+    <button id="left_out">左侧出</button>
+    <button id="right_out">右侧出</button>
+    <ul id="num_wrap"></ul>
+    <script>
+        var number = document.getElementById('num');
+        var left_in = document.getElementById('left_in');
+        var right_in = document.getElementById('right_in');
+        var left_out = document.getElementById('left_out');
+        var right_out = document.getElementById('right_out');
+        var num_wrap = document.getElementById('num_wrap');
+        function insert(direction){
+            if(number.value == ''){
+                alert('请输入数字');
+                number.value = '';
+                number.focus();
+            }else if(isNaN(number.value)){
+                alert('只能输入数字');
+                number.value = '';
+            }else{
+                var li = document.createElement('li');
+                li.innerHTML = number.value;
+                number.value='';
+                number.focus();
+                if(direction === 'left'){
+                    num_wrap.insertBefore(li,num_wrap.firstChild);
+                }else if(direction === 'right'){
+                    num_wrap.appendChild(li);
+                    number.value='';
+                    number.focus();
+                }
+            }
+        }
+        function remove(x,direction){
+             if( direction === 'left'){
+                alert('删除数字:'+ num_wrap.firstChild.innerText );
+                num_wrap.removeChild(num_wrap.firstChild);
+            }else if(direction === 'right'){
+                alert('删除数字:' + num_wrap.lastChild.innerText);
+                num_wrap.removeChild(num_wrap.lastChild);
+            }else{
+                alert('删除数字:' + num_wrap.removeChild(x).innerText);
+            }
+        }
+
+        left_in.onclick = function(){insert('left');};
+        right_in.onclick = function(){insert('right');};
+        left_out.onclick = function (){remove(1,'left');};
+        right_out.onclick=function(){remove(1,'right');};
+        num_wrap.onclick= function(){remove(event.target)};
+    </script>
+</body>
+</html>
