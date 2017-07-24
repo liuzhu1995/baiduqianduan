@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .box{
+            position: relative;
+            top: 50%;
+            left:50%;
+            transform:translate(-50%);
+            width: 50%;
+            height: 150px;
+            border: 2px solid rgba(0,0,0,0.7);
+            margin-top: 20px;
+            /*box-sizing: border-box;*/
+        }
+        div{
+            display: flex;
+            justify-content: space-around;
+            align-items:center;
+            width: 45%;
+            height: 75%;
+            border:inherit;
+            margin:0 10px;
+            border-radius:20px;
+        }
+        .btn{
+            margin: 20px auto;
+        }
+        input{
+            display: inline-block;
+            border:none;
+            color: #fff;
+            background: rgba(0,0,0,0.6);
+            font-size: 15px;
+            font-weight:bolder;
+            padding: 8px 5px;
+            cursor:pointer;
+        }
+        input:hover{
+            background: rgba(0,0,0,0.8);
+            color:#fff;
+        }
+        .bg{
+            background: red !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="box" id="root">
+        <div>
+            <div>
+                <div></div>
+                <div></div>
+            </div>
+            <div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+        <div>
+            <div>
+                <div></div>
+                <div></div>
+            </div>
+            <div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+    <div class="btn">
+        <input type="button" value="前序遍历" id="btn_left">
+        <input type="button" value="中序遍历" id="btn_center">
+        <input type="button" value="后序遍历" id="btn_right">
+    </div>
+    <script>
+       var btn_left = document.getElementById("btn_left"),
+           btn_center = document.getElementById("btn_center"),
+           btn_right = document.getElementById("btn_right"),
+           rootNode = document.getElementById("root"),
+           time = null,
+           arr = [];
+       //复位  每次点击都将之前函数或者表达式停止，并且将所有的颜色设置为原来颜色
+       function reset(){
+           //停止setInterval调用
+           clearInterval(time);
+           arr=[];
+           var divs = document.getElementsByTagName("div");
+           for(var i=0;i<divs.length;i++){
+               divs[i].style.backgroundColor = "white";
+           }
+       }
+       //二叉树前序遍历算法
+       function preOrder(node){
+           if(!(node==null)){
+               arr.push(node);
+               preOrder(node.firstElementChild);
+               preOrder(node.lastElementChild);
+           }
+       }
+       //使用递归方式实现中序遍历
+       function inOrder(node){
+           if(!(node == null)){
+               inOrder(node.firstElementChild);//先访问左子树
+                arr.push(node);//再访问根节点
+               inOrder(node.lastElementChild);//最后访问右子树
+           }
+       }
+       //后序遍历
+       function postOrder(node){
+           if(!(node == null)){
+               postOrder(node.firstElementChild);
+               postOrder(node.lastElementChild);
+                arr.push(node);
+           }
+       }
+      //高亮显示
+       function addColor(){
+           /*因为二叉树三种遍历方法已经按照各自的方法将各个节点遍历一遍并且排好了顺序添加进了数组arr里面,所以只要
+           按照顺序依次添加颜色高亮显示*/
+           var i=0;
+           //给数组中第一个元素背景颜色添加高亮显示
+           arr[i].style.backgroundColor = "greenyellow";
+           //利用serInterval()方法按照一定时间调用计算表达式来给当前遍历到的元素添加颜色以做特殊显示
+           time = setInterval(function(){
+               i++;
+               if(i<arr.length){
+                   arr[i-1].style.backgroundColor = " white";
+                   arr[i].style.backgroundColor = "greenyellow";
+               }else{
+                   clearInterval(time);
+                   arr[i].style.backgroundColor = "white";
+               }
+           },500)
+       }
+       //给三个按钮分别添加点击事件
+       btn_left.onclick = function(){
+           reset();
+           preOrder(rootNode);
+           addColor()
+       };
+       btn_center.onclick = function(){
+           reset();
+           inOrder(rootNode);
+           addColor();
+       };
+       btn_right.onclick = function(){
+           reset();
+           postOrder(rootNode);
+           addColor();
+       }
+    </script>
+</body>
+</html>
