@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .wrap{
+            width: 500px;
+            margin: 100px auto;
+            padding:10px 0;
+        }
+        span{
+            display: inline-block;
+            width: 50px;
+            height: 20px;
+            line-height:20px;
+            font-size: 12px;
+            text-align: right;
+            margin-right: 10px;
+        }
+        input[type=text],input[type=password],input[type=button]{
+            width: 260px;
+            height: 36px;
+            border-radius: 10px;
+            border: 1px solid rgba(200,200,200,0.6);
+            outline: none;
+            text-indent:0.8em;
+            margin-top: 18px;
+        }
+        input[type=button]{
+            width: 200px;
+            margin:15px 0 0 90px;
+            cursor:pointer;
+        }
+        p{
+            display: block;
+            width: 300px;
+            margin:5px 0 0 60px;
+            color: rgba(0,0,0,0.5);
+        }
+    </style>
+</head>
+<body>
+    <form action="">
+        <div class="wrap">
+            <div>
+                <span>名称</span><input type="text" id="name" class="get_val">
+            </div>
+            <div>
+                <span>密码</span><input type="password" id="password"  class="get_val">
+            </div>
+            <div>
+                <span>密码确认</span><input type="password" id="con_pas"  class="get_val">
+            </div>
+            <div>
+                <span>邮箱</span><input type="text" id="email"  class="get_val">
+            </div>
+            <div>
+                <span>手机</span><input type="text" id="phone_num"  class="get_val">
+            </div>
+            <input type="button" value="提交" id="button">
+        </div>
+
+    </form>
+    <script>
+        var boole = true;
+        //名称
+        function fun_name() {
+            var p = document.createElement("p");
+            var name = document.getElementById("name");
+            //获得焦点 动态的改变边框颜色以及添加文字
+            name.onfocus = function () {
+                if(name.value ==""){
+                    p.innerText = "必填,长度为4~16个字符";
+                    this.style.borderColor = "#09bdce";
+                    this.parentNode.appendChild(p);
+                }
+            };
+            //失去焦点 恢复边框颜色  删除p元素
+            name.onblur = function () {
+                var text = name.value;
+                var len = 0;
+                for (var i = 0; i < text.length; i++) {
+                    var a = text.charAt(i);
+                    if ((/[^\x00-\xff]/ig).test(a)) {
+                        len += 2;
+                    } else {
+                        len += 1;
+                    }
+                }
+                if (name.value == "") {
+                    p.innerText = "名字不能为空";
+                    this.style.borderColor = "red";
+                    this.parentNode.appendChild(p);
+                } else if (len < 4) {
+                    p.innerText = "长度不能小于4";
+                    this.style.borderColor = "red";
+                    this.parentNode.appendChild(p);
+                } else if (len > 16) {
+                    p.innerText = "长度不能大于16";
+                    this.style.borderColor = "red";
+                    this.parentNode.appendChild(p);
+                } else {
+                    p.innerText = "输入正确";
+                    this.style.borderColor = "green";
+                    this.parentNode.appendChild(p);
+                }
+            }
+            //
+        }
+        //密码框
+        function pass(){
+            var p = document.createElement("p");
+            var password = document.getElementById("password");
+
+            password.onfocus = function(){
+                if(password.value == ""){
+                    //获得焦点 动态的改变边框颜色以及添加文字
+                    p.innerText = "必填,长度为4~16个字符";
+                    this.style.borderColor = "#09bdce";
+                    this.parentNode.appendChild(p);
+                }
+            };
+                password.onblur = function(){
+                    var len = password.value;
+                    if(len ==""){
+                        p.innerText = "请输入密码";
+                        this.style.borderColor = "red";
+                        this.parentNode.appendChild(p);
+                    }else if(len.length<4){
+                        p.innerText = "长度不能小于4";
+                        this.style.borderColor = "red";
+                        this.parentNode.appendChild(p);
+                    }else if(len.length>10){
+                        p.innerText = "长度不能大于10";
+                        this.style.borderColor = "red";
+                        this.parentNode.appendChild(p);
+                    }else{
+                        p.innerText = "密码可用";
+                        this.style.borderColor = "green";
+                        this.parentNode.appendChild(p);
+                    }
+            }
+        }
+        //密码确认
+        function con_pass(){
+            var p = document.createElement("p");
+            var con_pas = document.getElementById("con_pas");
+            var password = document.getElementById("password");
+            con_pas.onfocus = function(){
+                if(con_pas.value ==""){
+                    //获得焦点 动态的改变边框颜色以及添加文字
+                    p.innerText = "请再次输入相同密码";
+                    this.style.borderColor = "#09bdce";
+                    this.parentNode.appendChild(p);
+                }
+
+            };
+            con_pas.onblur = function(){
+                var con_val = con_pas.value;
+                var pas_val = password.value;
+                        if(con_val == ""){
+                            p.innerText = "请输入相同密码";
+                            this.style.borderColor = "red";
+                            this.parentNode.appendChild(p);
+                        }else if(con_val == pas_val){
+                            p.innerText = "两次密码输入一致";
+                            this.parentNode.appendChild(p);
+                            this.style.borderColor ="green";
+                        }else{
+                            p.innerText = "两次密码输入不一致";
+                            this.style.borderColor = "red";
+                            this.parentNode.appendChild(p);
+                        }
+                    }
+            }
+            //邮箱
+       function Email(){
+           var p = document.createElement("p");
+            var email = document.getElementById("email");
+
+           email.onfocus = function(){
+               if(email.value == ""){
+                   p.innerText = "请输入邮箱账号";
+                   this.style.borderColor = "#09bdce";
+                   this.parentNode.appendChild(p);
+               }
+
+           }
+
+           email.onblur = function(){
+               var val = email.value;
+               var regexp =  /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+               if(regexp.test(val)){
+                   p.innerText = "邮箱格式正确";
+                   this.style.borderColor = "green";
+                   this.parentNode.appendChild(p);
+               }else{
+                   p.innerText = "邮箱格式错误";
+                   this.style.borderColor = "red";
+                   this.parentNode.appendChild(p);
+               }
+           }
+       }
+       //手机号
+        function phone(){
+            var p = document.createElement("p");
+           var phone_num = document.getElementById("phone_num");
+          phone_num.onfocus = function(){
+              if(phone_num.value == ""){
+                  p.innerText = "请输入手机号码";
+                  this.style.borderColor = "#09bdce";
+                  this.parentNode.appendChild(p);
+              }
+          };
+          phone_num.onblur = function(){
+              var val = phone_num.value;
+              if(val == ""){
+                  p.innerText = "内容不能为空";
+                  this.style.borderColor = "red";
+                  this.parentNode.appendChild(p);
+              }else if(!(isNaN(val))){
+                  if(val.length == 11){
+                      p.innerText = "手机号码格式正确";
+                      this.parentNode.appendChild(p);
+                      this.style.borderColor ="green";
+
+                  }else{
+                      p.innerText = "请正确输入11位手机号码";
+                      this.style.borderColor = "red";
+                      this.parentNode.appendChild(p);
+                  }
+              }else{
+                  p.innerText = "只能填写数字";
+                  this.style.borderColor = "red";
+                  this.parentNode.appendChild(p);
+              }
+          }
+
+        }
+
+
+        //给提交按钮绑定点击事件,通过条用所有验证函数 来完成统一的验证
+        var but = document.getElementById("button");
+        but.onclick = function(){
+            //获取所有的input输入框
+            var inputs =  document.getElementsByClassName("get_val");
+            //获取所有input的数量
+            var len =  inputs.length ;
+            //通过遍历获取每个input的边框颜色
+            for(var i=0;i<inputs.length;i++){
+                var color = inputs[i].style.borderColor;
+                //当验证通过时边框颜色围绿色 所以判断当边框颜色不为绿色时
+                if(color != "green"){
+                    //将变量len的值减1
+                    len -= 1;
+                }
+            }
+            //最终判断变量len的值是否和input的数量相等 如果相等验证成功 否则失败
+            if(len == inputs.length){
+                alert("验证成功")
+            }else{
+                alert("验证失败")
+            }
+
+        };
+
+        window.onload = function(){
+            fun_name();
+            pass();
+            con_pass();
+            Email();
+            phone();
+        }
+    </script>
+</body>
+</html>
