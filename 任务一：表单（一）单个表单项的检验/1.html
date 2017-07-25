@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .wrap{
+            margin:100px auto;
+            width: 300px;
+            height: 250px;
+        }
+        input[type=password], input[type=text],input[type=button]{
+            width: 298px;
+            height: 47px;
+            font-size: 14px;
+            text-indent:1em;
+            border: 1px solid rgba(200,200,200,0.5);
+            border-radius: 5px;
+            outline: none;
+            margin-top:5px;
+        }
+        input[type=button]{
+            width: 300px;
+            text-indent:0;
+            background: rgba(0,0,0,0.4);
+            border:none;
+            margin-top:10px;
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+    <form action="">
+        <div class="wrap">
+                <input type="text" placeholder="名称" id="name">
+                <input type="text" placeholder="电话" id="number">
+                <input type="password" placeholder="密码" id="password">
+                <input type="button" value="提交注册" id="submit">
+        </div>
+    </form>
+    <script>
+        var submit = document.getElementById("submit");
+        submit.onclick = function(){
+            len_name();
+            num();
+            pass()
+        }
+
+        //判断名称长度
+        function len_name() {
+            var name = document.getElementById("name");
+            var name_val = name.value;
+            var len = 0;
+            for (var i = 0; i < name_val.length; i++) {
+                var a = name_val.charAt(i);
+                if ((/[^\x00-\xff]/ig).test(a)) {
+                    len += 2;
+                } else {
+                    len += 1;
+                }
+            }
+                if (len < 4 || len > 16) {
+                    name.value = "";
+                    name.style.border = "1px solid red";
+                    name.setAttribute("placeholder", "字符数为4~16个字符");
+                } else {
+                    name.style.border = "1px solid green";
+                }
+        }
+        //判断电话号码
+        function num(){
+            var number = document.getElementById("number");
+            var num_val = number.value;
+            if(!isNaN(num_val)){
+                if(num_val.length == 11){
+                    number.style.border= "1px solid green";
+                }else{
+                    number.value = "";
+                    number.style.border= "1px solid red";
+                    number.setAttribute("placeholder","请输入11位正确电话号码")
+                }
+            }else{
+                number.value = "";
+                number.style.border= "1px solid red";
+                number.setAttribute("placeholder","请输入11位正确电话号码")
+            }
+        }
+        //判断密码长度
+        function pass(){
+            var password = document.getElementById("password");
+            var pass_val = password.value;
+            if(pass_val.length<7 ||pass_val>16){
+                password.style.border= "1px solid red";
+                password.setAttribute("placeholder","请输入密码")
+            }else{
+                password.style.border= "1px solid green";
+            }
+        }
+    </script>
+</body>
+</html>
