@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            font-size: 16px;
+        }
+        #box{
+            height: 300px;
+            margin: 100px auto;
+            text-align: center;
+        }
+        #box span{
+            display: inline-block;
+            padding:5px 8px;
+        }
+       #wrap div{
+           display: inline-block;
+           margin-right: 40px;
+       }
+        #local,#unit{
+            height: 80px;
+            margin-top: 20px;
+            padding: 5px;
+        }
+        #select1,#select2,#job{
+            width: 100px;
+            height: 32px;
+            border-radius: 6px;
+            border: 1px solid #000;
+            /*outline: none;*/
+        }
+        #select2{
+            width: 180px;
+            margin-left: 20px;
+        }
+        #job{
+            width: 160px;
+            text-indent: 6px;
+        }
+        #local{
+            display: none;
+        }
+        #unit{
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="box">
+    <div id="wrap">
+        <div id="radio1">
+            <input type="radio" name="stu" id="student"><label for="student">在校生</label>
+        </div>
+        <div id="raadio2">
+            <input type="radio" name="stu" id="no_stu"><label for="no_stu">非在校生</label>
+        </div>
+    </div>
+    <div id="local">
+        <span >学校：</span>
+        <select name="" id="select1">
+            <option value="1" id="option1" >深圳</option>
+            <option value="2" id="option2">北京</option>
+            <option value="3" id="option3">上海</option>
+            <option value="4" id="option4">西安</option>
+        </select>
+         <select name="" id="select2">
+             <option value="">深圳大学</option>
+             <option value="">南方科技大学</option>
+             <option value="">中山大学</option>
+             <option value="">香港中文大学</option>
+         </select>
+    </div>
+    <div id="unit">
+        <span>就业单位</span>
+        <input type="text" id="job">
+    </div>
+</div>
+<script>
+    var student = document.getElementById("student");
+    var no_stu = document.getElementById("no_stu");
+    var local = document.getElementById("local");
+    var unit = document.getElementById("unit");
+    var sz = ["深圳大学","南方科技大学","中山大学","香港中文大学"];
+    var bj_sch = ["清华大学","北京大学","北京航空航天大学","中国人民大学"];
+    var sh_sch = ["复旦大学","同济大学","上海交通大学","华东理工大学"];
+    var xian_sch = ["西安交通大学","西安理工大学","西安科技大学","西北大学"];
+           student.onclick = function(){
+               if(student.checked){
+                   unit.style.display = "none";
+                   local.style.display = "block";
+               }
+           };
+           no_stu.onclick = function(){
+               if(no_stu.checked){
+                   local.style.display = "none";
+                   unit.style.display = "block";
+               }
+           };
+        var select1 = document.getElementById("select1");
+        var select2 = document.getElementById("select2");
+        var arr = [];
+        select1.onclick = function(){
+            var index = select1.selectedIndex; // 选中索引
+            var text = select1.options[index].text; // 选中文本
+            var value = select1.options[index].value; // 选中值
+            var options1 = select1.getElementsByTagName("option");
+            var options2 = select2.getElementsByTagName("option");
+            for(var i=0;i<options1.length;i++){
+                var txt = options1[i].text;
+                arr.push(txt);
+            }
+            var num = 0;
+            if(text == arr[0]){
+               for(var i=0;i<options2.length;i++){
+                   options2[i].text = sz[num];
+                  num++;
+               }
+            }
+           if(text == arr[1]){
+               for(var i=0;i<options2.length;i++){
+                   options2[i].text = bj_sch[num];
+                   num++;
+               }
+           }
+            if(text == arr[2]){
+                for(var i=0;i<options2.length;i++){
+                    options2[i].text = sh_sch[num];
+                    num++;
+                }
+            }
+            if(text == arr[3]){
+                for(var i=0;i<options2.length;i++){
+                    options2[i].text = xian_sch[num];
+                    num++;
+                }
+            }
+        }
+
+
+
+
+
+
+</script>
+</body>
+</html>
