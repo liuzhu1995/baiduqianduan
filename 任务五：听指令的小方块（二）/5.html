@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .box{
+            position: relative;
+            width: 500px;
+            height: 500px;
+            border: 2px solid #000;
+            margin: 50px auto;
+        }
+        .container{
+            position: relative;
+            width: 100%;
+            height: 100%;
+            font-size: 0;
+        }
+        .container div{
+            display: inline-block;
+            width:10%;
+            height: 10%;
+            border: 1px solid #000;
+            border-left:none;
+            border-bottom:none;
+            box-sizing:border-box;
+        }
+        .num_top,.num_left{
+            position: absolute;
+        }
+        .num_top{
+            top:-50px;
+        }
+        .num_top div{
+            float: left;
+            width: 50px;
+            height: 50px;
+            line-height:50px;
+            text-align: center;
+        }
+        .num_left{
+            position: absolute;
+            top: 0;
+            left:-50px;
+        }
+        .num_left div{
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+        }
+        #grid{
+            position:absolute;
+            width: 50px;
+            height: 50px;
+            background: greenyellow;
+            transition:all 1s linear;
+        }
+        #grid .colo{
+            width: 50px;
+            height: 15px;
+            background: red;
+        }
+        .input_box{
+            position: absolute;
+            width: 300px;
+            top: 100px;
+            right:0;
+
+        }
+        p{
+            position: absolute;
+            top:0;
+            left: 0;
+        }
+        #select{
+            width: 120px;
+            height: 35px;
+            padding:5px 0;
+            text-indent: 12px;
+        }
+        #click{
+            padding:7px 10px;
+            background: rgba(0,0,0,0.6);
+            border:none;
+        }
+    </style>
+</head>
+<body>
+<p>
+    GO：向蓝色边所面向的方向前进一格（一格等同于正方形的边长）<br>
+    TUN LEF：向左转（逆时针旋转 90 度）<br>
+    TUN RIG：向右转（顺时针旋转 90 度）<br>
+    TUN BAC：向右转（旋转 180 度）<br>
+    TRA LEF：向屏幕的左侧移动一格，方向不变 <br>
+    TRA TOP：向屏幕的上面移动一格，方向不变 <br>
+    TRA RIG：向屏幕的右侧移动一格，方向不变 <br>
+    TRA BOT：向屏幕的下面移动一格，方向不变 <br>
+    MOV LEF：方向转向屏幕左侧，并向屏幕的左侧移动一格 <br>
+    MOV TOP：方向转向屏幕上面，向屏幕的上面移动一格 <br>
+    MOV RIG：方向转向屏幕右侧，向屏幕的右侧移动一格 <br>
+    MOV BOT：方向转向屏幕下面，向屏幕的下面移动一格
+
+</p>
+    <div class="box">
+        <div class="num_top">
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+            <div>4</div>
+            <div>5</div>
+            <div>6</div>
+            <div>7</div>
+            <div>8</div>
+            <div>9</div>
+            <div>10</div>
+        </div>
+        <div class="container">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div class="num_left">
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+            <div>4</div>
+            <div>5</div>
+            <div>6</div>
+            <div>7</div>
+            <div>8</div>
+            <div>9</div>
+            <div>10</div>
+        </div>
+        <div id="grid" style="top: 350px;left: 250px;"><div class="colo"></div></div>
+    </div>
+    <div class="input_box">
+        <select name="" id="select">
+            <option>GO</option>
+            <option>TUN LEF</option>
+            <option>TUN RIG</option>
+            <option>TUN BAC</option>
+            <option>TRA LEF</option>
+            <option>TRA TOP</option>
+            <option>TRA RIG</option>
+            <option>TRA BOT</option>
+            <option>MOV LEF</option>
+            <option>MOV TOP</option>
+            <option>MOV RIG</option>
+            <option>MOV BOT</option>
+        </select>
+        <input type="button" value="执行" id="click">
+    </div>
+<script>
+    //获取执行按钮
+    var click = document.getElementById("click");
+    //获取小方块
+    var grid = document.getElementById("grid");
+    //方向初始值 4上 3右 2下 1左
+    var direction = 4;
+    //度数初始值
+    var degree = 0;
+
+    function change() {
+        //获取select的选中文本
+        var select = document.getElementById("select");
+        var index = select.selectedIndex;
+        var text = select.options[index].text;
+        //根据选中的select文本值来和命令比对来执行相应的操作
+        /*   TUN LEF：向左转（逆时针旋转 90 度）
+         TUN RIG：向右转（顺时针旋转 90 度）
+         TUN BAC：向右转（旋转 180 度）*/
+        if (text == "TUN LEF") {
+//            TUN LEF：向左转（逆时针旋转 90 度）
+            //更改方向值
+            if (direction == 4) {
+                direction = 1;
+            } else {
+                direction++;
+            }
+            grid.style.transform = "rotate(" + (degree - 90) + "deg)";
+            degree = degree - 90;
+        }
+        //TUN RIG：向右转（顺时针旋转 90 度）
+        if (text == "TUN RIG") {
+            if (direction == 1) {
+                direction = 4;
+            } else {
+                direction--;
+            }
+            grid.style.transform = "rotate(" + (degree + 90) + "deg)";
+            degree = degree + 90;
+        }
+        // TUN BAC：向右转（旋转 180 度）
+        if (text == "TUN BAC") {
+            //更改方向值
+            if (direction == 1 || direction == 2) {
+                direction = direction + 2;
+            } else if (direction == 3 || direction == 4) {
+                direction = direction - 2;
+            }
+            grid.style.transform = "rotate(" + (degree + 180) + "deg)";
+            degree = degree + 180;
+        }
+        /*TRA LEF：向屏幕的左侧移动一格，方向不变
+        TRA TOP：向屏幕的上面移动一格，方向不变
+        TRA RIG：向屏幕的右侧移动一格，方向不变
+        TRA BOT：向屏幕的下面移动一格，方向不变*/
+        if(text == "TRA LEF"){
+            if(parseInt(grid.style.left)> 0){
+                grid.style.left = (parseInt(grid.style.left) - 50) + "px";
+            }
+
+        } else if(text == "TRA TOP"){
+            if(parseInt(grid.style.top) > 0){
+                grid.style.top = (parseInt(grid.style.top) - 50) + "px";
+            }
+        } else if(text == "TRA RIG"){
+            if(parseInt(grid.style.left) < 450){
+                grid.style.left = (parseInt(grid.style.left) + 50)+ "px";
+            }
+        }else if(text == "TRA BOT"){
+            if(parseInt(grid.style.top) <450) {
+                grid.style.top = (parseInt(grid.style.top) + 50) +"px";
+            }
+        }
+
+        /*MOV LEF：方向转向屏幕左侧，并向屏幕的左侧移动一格
+         MOV TOP：方向转向屏幕上面，向屏幕的上面移动一格
+         MOV RIG：方向转向屏幕右侧，向屏幕的右侧移动一格
+         MOV BOT：方向转向屏幕下面，向屏幕的下面移动一格*/
+        if(text == "MOV LEF"){
+            //判断是否超过最大或者最小left top值 以免超出边界
+            if (parseInt(grid.style.left)>0){
+                    setTimeout(function() {
+                        grid.style.left = (parseInt(grid.style.left) - 50) + "px";
+                    },1100);
+                    //根据方向值来计算在原有角度上是增加角度还是减少角度
+                    grid.style.transform = "rotate(" + (degree+(direction-1)*90)+"deg)";
+                    //做出改变后的角度值
+                    degree = degree+(direction-1)*90;
+                    //更改和角度对应的方向值
+                    direction=1;
+            }
+        }else if(text == "MOV TOP"){
+            if(parseInt(grid.style.top)>0){
+                setTimeout(function(){
+                    grid.style.top = (parseInt(grid.style.top)-50) + "px";
+                },1100);
+                grid.style.transform = "rotate(" + (degree+(direction-4)*90)+"deg)";
+                degree = degree+(direction-4)*90;
+                direction = 4;
+            }
+        }else if(text == "MOV RIG"){
+            if(parseInt(grid.style.top) <450){
+                setTimeout(function(){
+                    grid.style.left = (parseInt(grid.style.left)+50) + "px";
+                },1000);
+                grid.style.transform = "rotate("+(degree+(direction-3)*90) + "deg)";
+                degree = degree+(direction-3)*90;
+                direction=3;
+            }
+        }else if(text =="MOV BOT"){
+            if(parseInt(grid.style.top)<450){
+                setTimeout(function(){
+                    grid.style.top = (parseInt(grid.style.top)+50) + "px";
+                },1000);
+                grid.style.transform = "rotate(" +(degree+(direction-2)*90) + "deg)";
+                degree = degree+(direction-2)*90;
+                direction = 2;
+            }
+        }else if(text == "GO"){
+            if(direction == 4){
+                grid.style.top =="0px"?alert("超出边界"):grid.style.top = (parseInt(grid.style.top)-50)+"px";
+            }else if(direction == 3){
+                grid.style.left =="450px"?alert("超出边界"):grid.style.left = (parseInt(grid.style.left)+50)+"px";
+            }else if(direction == 2){
+                grid.style.top =="450px"?alert("超出边界"):grid.style.top = (parseInt(grid.style.top)+50)+"px";
+            }else if(direction == 1){
+                grid.style.left =="0px"?alert("超出边界"):grid.style.left = (parseInt(grid.style.left)-50)+"px";
+            }
+        }
+
+    }
+    click.onclick = function(){
+        change()
+    }
+</script>
+</body>
+</html>
