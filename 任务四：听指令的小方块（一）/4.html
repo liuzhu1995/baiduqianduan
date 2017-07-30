@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>听指令的小方块</title>
+    <style>
+        #box{
+            position: relative;
+            width: 500px;
+            height: 500px;
+            margin: 50px auto;
+            border: 2px solid #000;
+        }
+        #container{
+            position: relative;
+            width:100%;
+            height:100%;
+            font-size: 0;
+        }
+        #container div{
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+            display:inline-block;
+            width: 10%;
+            height: 10%;
+            border: 1px solid #000;
+            border-left:none;
+            border-bottom:none;
+        }
+        #num_top{
+            position: absolute;
+            top:-50px;
+        }
+        #num_top div{
+            float: left;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+        }
+        #num_left{
+            position: absolute;
+            top: 0;
+            left: -50px;
+        }
+        #num_left div{
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+        }
+        #grid{
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: greenyellow;
+            transition:all 1s linear;
+        }
+        .colo{
+            position: absolute;
+            width: 50px;
+            height: 15px;
+            background: #000;
+        }
+        #form{
+            width: 200px;
+            height: 80px;
+            margin: 10px auto;
+        }
+        p{
+            width: 300px;
+            margin: 5px auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <div id="num_top">
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+            <div>4</div>
+            <div>5</div>
+            <div>6</div>
+            <div>7</div>
+            <div>8</div>
+            <div>9</div>
+            <div>10</div>
+        </div>
+        <div id="container">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <div id="num_left">
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+            <div>4</div>
+            <div>5</div>
+            <div>6</div>
+            <div>7</div>
+            <div>8</div>
+            <div>9</div>
+            <div>10</div>
+        </div>
+        <div id="grid" style="top: 350px;left: 250px;"><div class="colo"></div></div>
+    </div>
+    <form action="" id="form">
+        <input type="text" id="direction"><input type="button" value="前进" id="go">
+    </form>
+    <p> /*GO：向蓝色边所面向的方向前进一格（一格等同于正方形的边长）<br>
+        TUN LEF：向左转（逆时针旋转90度）<br>
+        TUN RIG：向右转（顺时针旋转90度）<br>
+        TUN BAC：向右转（旋转180度）*/</p>
+    <script>
+        var container = document.getElementById("container");
+        var direction = document.getElementById("direction");
+        var go = document.getElementById("go");
+        var grid = document.getElementById("grid");
+        //度数
+        var angle = 0;
+        //方向 4上 3右 2下 1左
+        var dir = 4;
+
+        /*GO：向蓝色边所面向的方向前进一格（一格等同于正方形的边长）
+        TUN LEF：向左转（逆时针旋转90度）
+        TUN RIG：向右转（顺时针旋转90度）
+        TUN BAC：向右转（旋转180度）*/
+         function change(){
+            if(direction.value=="TUN LEF"){
+                if(dir == 4){
+                    dir = 1;
+                }else{
+                    dir++;
+                }
+                grid.style.transform="rotate("+(angle-90)+"deg)";
+                angle = angle - 90;
+            }
+            if(direction.value=="TUN RIG"){
+                if(dir == 1){
+                    dir = 4;
+                }else{
+                    dir--;
+                }
+                grid.style.transform="rotate("+(angle+90)+"deg)";
+                angle = angle + 90;
+                alert(dir)
+            }
+            if(direction.value=="TUN BAC"){
+                if(dir==2 || dir==1){
+                    dir = dir+2;
+                }else{
+                    dir= dir-2
+                }
+                grid.style.transform="rotate("+(angle+180)+"deg)";
+                angle = angle + 180;
+                alert(dir);
+            }
+            //利用方向修改top和left的值
+            if(direction.value=="GO"){
+                if(dir==4){
+                    grid.style.top =="0px"?alert("超出边界"):grid.style.top = (parseInt(grid.style.top)-50)+"px";
+                }
+                if(dir==3){
+                    grid.style.left =="450px"?alert("超出边界"):grid.style.left = (parseInt(grid.style.left)+50)+"px";
+                }
+                if(dir==2){
+                    grid.style.top =="450px"?alert("超出边界"):grid.style.top = (parseInt(grid.style.top)+50)+"px";
+                }
+                if(dir==1){
+                    grid.style.left =="0px"?alert("超出边界"):grid.style.left = (parseInt(grid.style.left)-50)+"px";
+                }
+            }
+
+        }
+        //调用给go添加点击事件调用change()函数
+        go.onclick = function(){
+             change()
+        }
+    </script>
+</body>
+</html>
