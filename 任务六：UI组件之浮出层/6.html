@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>任务六：UI组件之浮出层(点击标题时可拖动)</title>
+    <style>
+        *{
+            margin: 0;
+            padding:0;
+        }
+        .box{
+            width: 300px;
+            height: 300px;
+            margin:20px auto;
+        }
+        #button{
+            padding:8px 16px;
+            position: relative;
+        }
+        #mask{
+            background: #000;
+            opacity: 0.65;
+            filter: alpha(65);
+            height:1000px;
+            width: 100%;
+            position: absolute;
+            left: 0;
+            top:0;
+            z-index: 999;
+        }
+        #login{
+            position: fixed;
+            width:30%;
+            height: 30%;
+            border: 2px solid #000;
+            z-index:1000;
+            background: #f2dede;
+        }
+        #login h3{
+            display: block;
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            border-bottom:2px solid #000;
+            text-indent: 1em;
+            background: #f6a828;
+        }
+        input[type=button]{
+            padding:8px 16px;
+            background: rgba(0,0,0,0.6);
+            border: 1px solid rgba(0,0,0,0.6);
+            margin-right:20px;
+            cursor:pointer;
+        }
+        #close{
+            position: absolute;
+            width: 200px;
+            right:10px;
+            bottom:10px;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <input type="button" value="登陆" id="login_btn">
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <script>
+        window.onload = function(){
+
+            var login_btn = document.getElementById("login_btn");
+            login_btn.onclick = function(){
+                //创建节点
+                var Mask = document.createElement("div");
+                Mask.id = "mask";
+                //获取页面高度和宽度
+                var sHeight = document.documentElement.scrollHeight;
+                var sWidth = document.documentElement.scrollWidth;
+                Mask.style.height = sHeight + "px";
+                Mask.style.width = sWidth + "px";
+                document.body.appendChild(Mask);
+                //获取可视高度
+                var vHeight = document.documentElement.clientHeight;
+                var log = document.createElement("div");
+                log.id = "login";
+                log.innerHTML = " <h3 id='title'>这是一个浮出层</h3><div class='loginCon'><p>这是一个弹出层</p><div id='close'><input type='button' value='确定' id='confirm'><input type='button' value='取消' id='cancel'></div></div>";                                document.body.appendChild(log);
+                //获取login的高度和宽度
+                var log_hei = log.offsetHeight;
+                var log_width = log.offsetWidth;
+                // 实现在页面中居中
+                log.style.top = (vHeight-log_hei)/2 + "px";
+                log.style.left = (sWidth-log_width)/2 + "px";
+                //给遮罩添加点击事件，当点击时删除创建的两个元素 实现隐藏
+                Mask.onclick = function(){
+                    document.body.removeChild(Mask);
+                    document.body.removeChild(log);
+                }
+                //偏移值
+                var mouseOffsetX = 0;
+                var mouseOffsetY  =0;
+                //是否可拖动
+                var isDrag  = false;
+                 //在标题栏按下(计算鼠标相对拖拽元素的左上角坐标，并且标记元素为可拖拽)
+                var title = document.getElementById("title");
+                var login = document.getElementById("login");
+                title.onmousedown = function(){
+                   var e = e || window.event;
+                    //x坐标偏移值 = 鼠标当前x坐标 - 对象元素最左侧距离页面最左侧的距离
+                   mouseOffsetX = e.pageX - login.offsetLeft;
+                   mouseOffsetY = e.pageY - login.offsetTop;
+                   isDrag = true;
+                }
+                //鼠标移动时，检测元素是否是可移动，如果是则更新元素的位置为鼠标当前的位置(要减去第一步获取的偏移量)
+                document.onmousemove = function(e){
+                    var e = e || window.event;
+
+                    //获取鼠标当前的xy坐标
+                    var mouseX = e.pageX;
+                    var mouseY = e.pageY;
+                    var moveX = 0;
+                    var moveY = 0;
+                    if(isDrag === true){
+                        //当前对象元素的坐标 = 鼠标当前坐标 - 偏移量
+                        moveX = mouseX - mouseOffsetX;
+                        moveY = mouseY - mouseOffsetY;
+                        //范围限定  moveX大于0 并且小于(页面最大可视宽度 - 弹出层的宽度)
+                        //          moveY 大于0 并且小于(页面最大可视高度 - 弹出层的高度)
+                        //页面的宽度
+                        var pageWidth = document.documentElement.scrollWidth;
+                        //页面的可视高度
+                        var pageHeight = document.documentElement.clientHeight;
+                        //对象元素的高度宽度
+                        var log_hei = log.offsetHeight;
+                        var log_width = log.offsetWidth;
+                        //最大 宽高
+                        var maxX = pageWidth - log_width;
+                        var maxY = pageHeight - log_hei;
+                        //如果moveX小于0则=0，如果moveX大于maxY则 = maxX
+                        moveX = Math.min(maxX,Math.max(0,moveX));
+                        moveY = Math.min(maxY,Math.max(0,moveY));
+                        login.style.left = moveX + "px";
+                        login.style.top = moveY + "px";
+                    }
+                }
+
+                document.onmouseup = function(){
+                    isDrag = false;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
