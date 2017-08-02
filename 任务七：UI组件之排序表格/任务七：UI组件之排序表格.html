@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>任务七：UI组件之排序表格</title>
+    <style>
+        #table{
+            border-collapse:collapse;
+        }
+        #table td{
+            width: 120px;
+            height: 40px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        #thead tr{
+            background: #5c5c5c;
+        }
+        .up{
+            position: relative;
+            left: 20px;
+            top: -7px;
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-bottom: 10px solid #00bcd4;
+            border-top: none;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            cursor:pointer;
+        }
+        .down{
+            position: relative;
+            left: 0px;
+            bottom: -7px;
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-top: 10px solid #00bcd4;
+            border-bottom: none;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+    <table id="table" border="1">
+        <thead id="thead">
+            <tr>
+                <td>姓名</td>
+                <td>语文<span class="up"></span><span class="down"></span></td>
+                <td>数学<span class="up"></span><span class="down"></span></td>
+                <td>英语<span class="up"></span><span class="down"></span></td>
+                <td>总分<span class="up"></span><span class="down"></span></td>
+            </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+    </table>
+    <script>
+        var arr = [
+            ["小明",80,90,70,240],
+            ["小红",90,60,89,239],
+            ["小亮",60,100,70,230],
+            ["小刘",86,79,84,249]
+        ];
+        var wUp= document.getElementsByClassName("up");
+        var wDown =  document.getElementsByClassName("down");
+        var tb = document.getElementById("tbody");
+        //将arr内容插入到网页当中
+        for(var i= 0;i<arr.length;i++){
+            var trs = document.createElement("tr");
+           for(var j=0;j<arr[i].length;j++){
+               var tds = document.createElement("td");
+               tds.innerText = arr[i][j];
+               trs.appendChild(tds);
+           }
+           tb.appendChild(trs)
+        }
+
+        function seq(x){
+            for(var i=0;i<x.length;i++) {
+                var a = x[i];
+                a.index = i + 1;
+                a.onclick = function () {
+                    //获取当前点击时表头的值
+                    var num = this.index;
+                    //获取当前点击头部对应的列进行排序
+                   arr.sort(function(a,b){
+                        return b[num] - a[num];
+                    });
+                   //判断传入的参数如果是wDown就重新排序由小到大
+                    if(x == wDown){
+                        arr.sort(function(a,b){
+                            return a[num] - b[num];
+                        });
+                    }
+                    //清空tbody的内容
+                    tb.innerHTML = "";
+                    //根据排好顺序的数组，将内容插入刀网页
+                    for(var i= 0;i<arr.length;i++){
+                        var trs = document.createElement("tr");
+                        for(var j=0;j<arr[i].length;j++){
+                            var tds = document.createElement("td");
+                            tds.innerText = arr[i][j];
+                            trs.appendChild(tds);
+                        }
+                        tb.appendChild(trs)
+                    }
+                }
+            }
+        }
+
+    seq(wUp);
+    seq(wDown)
+
+    </script>
+</body>
+</html>
